@@ -11,7 +11,12 @@ export const api = axios.create({
   },
 })
 
-export const getProducts = async (): Promise<ProductFormData[]> => {
+export type ProductListResponse = {
+  result: ProductFormData[]
+  count: number
+}
+
+export const getProducts = async (): Promise<ProductListResponse> => {
   const response = await api.get("/nomenclature/")
   return response.data
 }

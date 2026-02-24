@@ -11,6 +11,7 @@ import { Form } from "@/components/ui/form"
 import TabBasic from "./TabBasic"
 import TabSEO from "./TabSEO"
 import TabQuick from "./TabQuick"
+import { createProduct } from "@/lib/api"
 
 export default function ProductForm() {
   const [open, setOpen] = useState(false)
@@ -31,8 +32,14 @@ export default function ProductForm() {
     },
   })
 
-  const onSubmit = (data: ProductFormData) => {
-    console.log("Form data:", data)
+  const onSubmit = async (data: ProductFormData) => {
+    try {
+      await createProduct(data)
+      setOpen(false)
+      form.reset()
+    } catch (error) {
+      console.error("Erreur lors de la création:", error)
+    }
   }
 
   return (
