@@ -1,58 +1,56 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { Filter } from "lucide-react"
 import { getProducts } from "@/lib/api"
-import { ProductFormData } from "@/lib/schema"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Button } from "@/components/ui/button"
+import ProductForm from "@/components/product-form/ProductForm"
+import ProductFilters from "./ProductFilters"
+import ProductTableRow from "./ProductTableRow"
+import ProductTableHeader from "./ProductTableHeader"
 
 export default function ProductList() {
-  const [products, setProducts] = useState<ProductFormData[]>([])
-  const [loading, setLoading] = useState(true)
+  const [products, setProducts] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [showFilters, setShowFilters] = useState(false)
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const data = await getProducts()
-        setProducts(data.result)
-      } catch (error) {
-        console.error("Erreur:", error)
-      } finally {
-        setLoading(false)
-      }
+  const fetchProducts = async () => {
+    try {
+      const data = await getProducts()
+      setProducts(data.result)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
     }
+  }
 
-    fetchProducts()
-  }, [])
+  useEffect(() => { fetchProducts() }, [])
 
-  if (loading) return <p>Загрузка...</p>
+  if (isLoading) return <p>Загрузка...</p>
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Имя</TableHead>
-          <TableHead>Тип</TableHead>
-          <TableHead>Описание</TableHead>
-          <TableHead>Цена</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {products.map((product: any) => (
-          <TableRow key={product.id}>
-            <TableCell>{product.name}</TableCell>
-            <TableCell>{product.type}</TableCell>
-            <TableCell>{product.description_short}</TableCell>
-            <TableCell>{product.marketplace_price}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center gap-4">
+        <ProductForm />
+        <Button variant="outline" size="sm" onClick={() => setShowFilters(!showFilters)}>
+          <Filter size={14} className="mr-2" />
+          Фильтры
+        </Button>
+      </div>
+
+      {showFilters && <ProductFilters />}
+
+      <div className="bg-white border rounded-lg overflow-hidden">
+        <table className="w-full text-sm">
+          <ProductTableHeader />
+          <tbody>
+            {products.map((product) => (
+              <ProductTableRow key={product.id} product={product} />
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   )
 }
