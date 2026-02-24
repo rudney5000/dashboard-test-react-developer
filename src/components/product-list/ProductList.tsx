@@ -3,16 +3,21 @@
 import { useEffect, useState } from "react"
 import { Filter } from "lucide-react"
 import { getProducts } from "@/lib/api"
+import { Product } from "@/lib/types"
 import { Button } from "@/components/ui/button"
+import { filterProducts } from "@/lib/filterProducts"
 import ProductForm from "@/components/product-form/ProductForm"
-import ProductFilters from "./ProductFilters"
+import ProductFilters, { FilterValues } from "./ProductFilters"
 import ProductTableRow from "./ProductTableRow"
 import ProductTableHeader from "./ProductTableHeader"
 
+const DEFAULT_FILTERS: FilterValues = { name: "", description: "", category: "" }
+
 export default function ProductList() {
-  const [products, setProducts] = useState<any[]>([])
+  const [products, setProducts] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [showFilters, setShowFilters] = useState(false)
+  const [filters, setFilters] = useState<FilterValues>(DEFAULT_FILTERS)
 
   const fetchProducts = async () => {
     try {
@@ -27,6 +32,8 @@ export default function ProductList() {
 
   useEffect(() => { fetchProducts() }, [])
 
+  const filteredProducts = filterProducts(products, filters)
+
   if (isLoading) return <p>Загрузка...</p>
 
   return (
@@ -39,13 +46,19 @@ export default function ProductList() {
         </Button>
       </div>
 
-      {showFilters && <ProductFilters />}
+      {showFilters && (
+        <ProductFilters
+          filters={filters}
+          onChange={setFilters}
+          onReset={() => setFilters(DEFAULT_FILTERS)}
+        />
+      )}
 
       <div className="bg-white border rounded-lg overflow-hidden">
         <table className="w-full text-sm">
           <ProductTableHeader />
           <tbody>
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <ProductTableRow key={product.id} product={product} />
             ))}
           </tbody>
