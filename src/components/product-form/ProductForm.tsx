@@ -47,7 +47,7 @@ export default function ProductForm() {
       <DialogTrigger asChild>
         <Button>+ Добавить номенклатуру</Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl bg-white">
         <DialogHeader>
           <DialogTitle>Добавить номенклатуру</DialogTitle>
         </DialogHeader>
