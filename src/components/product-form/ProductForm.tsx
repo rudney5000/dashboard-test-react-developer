@@ -12,8 +12,13 @@ import TabBasic from "./TabBasic"
 import TabSEO from "./TabSEO"
 import TabQuick from "./TabQuick"
 import { createProduct } from "@/lib/api"
+import { formatProductPayload } from "@/lib/formatProductPayload"
 
-export default function ProductForm() {
+interface Props {
+  onSuccess?: () => void
+}
+
+export default function ProductForm({ onSuccess }: Props) {
   const [open, setOpen] = useState(false)
 
   const form = useForm<ProductFormData>({
@@ -34,9 +39,10 @@ export default function ProductForm() {
 
   const onSubmit = async (data: ProductFormData) => {
     try {
-      await createProduct(data)
+      await createProduct(formatProductPayload(data))
       setOpen(false)
       form.reset()
+      onSuccess?.()
     } catch (error) {
       console.error("Erreur lors de la création:", error)
     }

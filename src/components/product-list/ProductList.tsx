@@ -52,7 +52,7 @@ export default function ProductList() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-4">
-        <ProductForm />
+        <ProductForm onSuccess={fetchProducts}/>
         <Button variant="outline" size="sm" onClick={() => setShowFilters(!showFilters)}>
           <Filter size={14} className="mr-2" />
           Фильтры

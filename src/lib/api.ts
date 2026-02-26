@@ -23,6 +23,6 @@ export const getProducts = async (): Promise<ProductListResponse> => {
 }
 
 export const createProduct = async (data: ProductFormData): Promise<Product> => {
-  const response = await api.post("/nomenclature/", data)
+  const response = await api.post("/nomenclature/", [data])
   return response.data
 }
