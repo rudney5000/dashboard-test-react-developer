@@ -1,18 +1,37 @@
 "use client"
 
-import { UseFormReturn, ControllerRenderProps } from "react-hook-form"
+import { UseFormReturn } from "react-hook-form"
+import { Sparkles } from "lucide-react"
 import { ProductFormData } from "@/lib/schema"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button"
+import { useGenerateSEO } from "@/hooks/useGenerateSEO"
 
-interface TabSEOProps {
+interface Props {
   form: UseFormReturn<ProductFormData>
 }
 
-export default function TabSEO({ form }: TabSEOProps) {
+export default function TabSEO({ form }: Props) {
+  const { generateSEO, isGenerating } = useGenerateSEO(form)
+
   return (
     <div className="space-y-4">
+      <div className="flex justify-end">
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          onClick={generateSEO}
+          disabled={isGenerating || !form.watch("name")}
+          className="gap-1"
+        >
+          <Sparkles size={12} />
+          {isGenerating ? "Generating..." : "Generate SEO with AI"}
+        </Button>
+      </div>
+
       <FormField
         control={form.control}
         name="seo_title"

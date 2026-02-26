@@ -1,7 +1,7 @@
 "use client"
 
 import { UseFormReturn } from "react-hook-form"
-import { Sparkles } from "lucide-react"
+import { Sparkles, Wand2 } from "lucide-react"
 import { ProductFormData } from "@/lib/schema"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -9,13 +9,15 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { useGenerateProduct } from "@/hooks/useGenerateProduct"
+import { useRewriteText } from "@/hooks/useRewriteText"
 
-interface TabBasicProps {
+interface Props {
   form: UseFormReturn<ProductFormData>
 }
 
-export default function TabBasic({ form }: TabBasicProps) {
+export default function TabBasic({ form }: Props) {
   const { generate, isGenerating } = useGenerateProduct(form)
+  const { rewrite, rewritingField } = useRewriteText(form)
 
   return (
     <div className="space-y-4">
@@ -74,7 +76,20 @@ export default function TabBasic({ form }: TabBasicProps) {
         name="description_short"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Краткое описание</FormLabel>
+            <div className="flex items-center justify-between">
+              <FormLabel>Краткое описание</FormLabel>
+              <Button
+                type="button"
+                size="sm"
+                variant="ghost"
+                onClick={() => rewrite("description_short")}
+                disabled={rewritingField === "description_short" || !form.watch("description_short")}
+                className="gap-1 text-xs h-6"
+              >
+                <Wand2 size={11} />
+                {rewritingField === "description_short" ? "..." : "Rewrite"}
+              </Button>
+            </div>
             <FormControl>
               <Textarea placeholder="Краткое описание" {...field} />
             </FormControl>
@@ -88,7 +103,20 @@ export default function TabBasic({ form }: TabBasicProps) {
         name="description_long"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Длинное описание</FormLabel>
+            <div className="flex items-center justify-between">
+              <FormLabel>Длинное описание</FormLabel>
+              <Button
+                type="button"
+                size="sm"
+                variant="ghost"
+                onClick={() => rewrite("description_long")}
+                disabled={rewritingField === "description_long" || !form.watch("description_long")}
+                className="gap-1 text-xs h-6"
+              >
+                <Wand2 size={11} />
+                {rewritingField === "description_long" ? "..." : "Rewrite"}
+              </Button>
+            </div>
             <FormControl>
               <Textarea placeholder="Длинное описание" rows={4} {...field} />
             </FormControl>
