@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { productSchema, ProductFormData } from "@/lib/schema"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Form } from "@/components/ui/form"
@@ -48,9 +48,10 @@ export default function ProductForm() {
         <Button>+ Добавить номенклатуру</Button>
       </DialogTrigger>
       <DialogContent className="max-w-2xl bg-white">
-        <DialogHeader>
-          <DialogTitle>Добавить номенклатуру</DialogTitle>
-        </DialogHeader>
+        <DialogTitle>Добавить номенклатуру</DialogTitle>
+        <DialogDescription className="sr-only">
+          Form to add a new product
+        </DialogDescription>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <Tabs defaultValue="basic">

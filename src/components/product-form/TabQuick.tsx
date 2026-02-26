@@ -28,7 +28,7 @@ export default function TabQuick({ form }: TabQuickProps) {
                   <SelectValue placeholder="Выберите глобальную категорию" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent className="bg-white rounded-lg">
                 <SelectItem value="127">Электроника и гаджеты</SelectItem>
                 <SelectItem value="427">Мода и стиль</SelectItem>
                 <SelectItem value="129">Еда и напитки</SelectItem>
