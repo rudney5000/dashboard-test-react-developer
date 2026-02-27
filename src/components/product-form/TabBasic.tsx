@@ -1,14 +1,13 @@
 "use client"
 
 import { UseFormReturn } from "react-hook-form"
-import { Sparkles, Wand2 } from "lucide-react"
+import { Wand2 } from "lucide-react"
 import { ProductFormData } from "@/lib/schema"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import { useGenerateProduct } from "@/hooks/useGenerateProduct"
 import { useRewriteText } from "@/hooks/useRewriteText"
 
 interface Props {
@@ -16,7 +15,6 @@ interface Props {
 }
 
 export default function TabBasic({ form }: Props) {
-  const { generate, isGenerating } = useGenerateProduct(form)
   const { rewrite, rewritingField } = useRewriteText(form)
 
   return (
@@ -27,22 +25,9 @@ export default function TabBasic({ form }: Props) {
         render={({ field }) => (
           <FormItem>
             <FormLabel>* Имя</FormLabel>
-            <div className="flex gap-2">
-              <FormControl>
+            <FormControl>
                 <Input placeholder="Название товара" {...field} />
               </FormControl>
-              <Button
-                type="button"
-                size="sm"
-                variant="outline"
-                onClick={generate}
-                disabled={isGenerating || !form.watch("name")}
-                className="shrink-0 gap-1"
-              >
-                <Sparkles size={12} />
-                {isGenerating ? "..." : "AI"}
-              </Button>
-            </div>
             <FormMessage />
           </FormItem>
         )}
