@@ -9,13 +9,14 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import BarcodesModal from "./modals/BarcodesModal"
 import GroupsModal from "./modals/GroupsModal"
 import AttributesModal from "./modals/AttributesModal"
+import Image from "next/image"
 
 type ModalType = "barcodes" | "groups" | "attributes" | null
 
 const ProductImage = ({ photo }: { photo?: string }) => (
   <div className="w-10 h-10 border rounded flex items-center justify-center text-gray-400 bg-gray-50">
     {photo
-      ? <img src={photo} className="w-full h-full object-cover rounded" />
+      ? <Image src={photo} alt="product" width={40} height={40} className="w-full h-full object-cover rounded" />
       : <span className="text-lg">+</span>
     }
   </div>
