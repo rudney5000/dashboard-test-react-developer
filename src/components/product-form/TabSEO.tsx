@@ -15,17 +15,25 @@ interface Props {
 
 export default function TabSEO({ form }: Props) {
   const { generateSEO, isGenerating } = useGenerateSEO(form)
+  const hasDescription = !!form.watch("description_short")
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-end">
+      <div className="flex items-center justify-between">
+        <div>
+          {!hasDescription && (
+            <p className="text-xs text-amber-500">
+              💡 Add a description in the main tab for better SEO results
+            </p>
+          )}
+        </div>
         <Button
           type="button"
           size="sm"
           variant="outline"
           onClick={generateSEO}
           disabled={isGenerating || !form.watch("name")}
-          className="gap-1"
+          className="gap-1 shrink-0"
         >
           <Sparkles size={12} />
           {isGenerating ? "Generating..." : "Generate SEO with AI"}
